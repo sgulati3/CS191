@@ -2,6 +2,7 @@ from django.shortcuts import get_object_or_404, render
 
 from .models import Post
 
+
 def index(request):
     latest_post_list = Post.objects.order_by('date')[:5]
     context = {

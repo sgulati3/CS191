@@ -2,6 +2,7 @@ from __future__ import unicode_literals
 
 from django.db import models
 
+
 # Uncomment the following line if you are having issues with python2
 # @python_2_unicode_compatible
 class Post(models.Model):
@@ -9,7 +10,7 @@ class Post(models.Model):
     date = models.DateTimeField('date submitted')
     text = models.TextField()
 
-    ARTICLE = 'AP' # Text Post (should not have url)
+    ARTICLE = 'AP' # Text Post (url not required)
     VIDEO = 'VP' # Video Post (url required)
     PHOTO = 'PP' # Single photo (url requird)
     SLIDES = 'SP' # Multiple photos (url required)
