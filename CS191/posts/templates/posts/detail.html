@@ -1,0 +1,7 @@
+<h1>{{ post.title }}</h1>
+<h3>{{ post.get_post_type_display }}</h3>
+<h3>{{ post.date }}</h3> 
+<p>{{ post.text }}</p> 
+{% if post.url %}
+    <p>{{ post.url }}</p> 
+{% endif %}
