@@ -1,15 +1,70 @@
-<h1>Latest 5 Posts</h1>
+{% include "includes/header.html" %}
 
-{% if latest_post_list %}
-  <ul>
-    {% for post in latest_post_list %}
-      <li>
-        <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
-      </li>
-    {% endfor %}
-  </ul>
-{% else %}
-  <h3>No posts are available</h3>
-{% endif %}
+<main>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-3 col-sm-3" id="topics-container">
+				<div class="list-group affix-pre" id="topics" data-clampedwidth="#topics-container">
+					<a href="#" class="list-group-item active">
+						<h4 class="list-group-item-heading">Justice Scalia</h4>
+						<p class="list-group-item-text">48,283 conversations</p>
+					</a>
+					<a href="#" class="list-group-item list-group-item-success">
+						<h4 class="list-group-item-heading">United States vs. Ferguson</h4>
+						<p class="list-group-item-text">
+							<p>39482 conversations</p>
+							<p><i class="fa fa-line-chart hot-topic"></i></p>
+						</p>
+					</a>
+					<a href="#" class="list-group-item">
+						<h4 class="list-group-item-heading">GOP Debate</h4>
+						<p class="list-group-item-text">30,282 conversations</p>
+					</a>
+					<a href="#" class="list-group-item">
+						<h4 class="list-group-item-heading">Grammy's</h4>
+						<p class="list-group-item-text">14,324 conversations</p>
+					</a>
+					<a href="#" class="list-group-item">
+						<h4 class="list-group-item-heading">Deadpool</h4>
+						<p class="list-group-item-text">2,342 conversations</p>
+					</a>
+				</div>
+			</div>
+			<div class="col-md-9 col-sm-9">
+				{% if latest_post_list %}
+				<div class="row">
+					{% for post in latest_post_list %}
+					<div class="col-md-12 col-sm-12">
+						<div class="panel panel-primary">
+							<div class="panel-heading clearfix">
+								<h3 class="panel-title pull-left">{{ post.title }}</h3>
+								<span class="pull-right">{{post.date}}</span>
+							</div>
+							<div class="panel-body">
+								<p>{{ post.text }}</p>
+								{% if post.url %}
+								<p>
+									<a href="{{ post.url }}">External Link</a>
+								</p> 
+								{% endif %}
+							</div>
+							<div class="panel-footer clearfix">
+								<span class="pull-left">
+									{{ post.get_post_type_display }}
+								</span> 
+								<span class="pull-right">
+                                    <a href="{{ post.get_absolute_url }}">Post Detail</a>
+								</span> 
+							</div> 
+						</div>
+					</div>
+					{% endfor %}
+				</div>
+				{% else %}
+				<h3>No posts available</h3>
+				{% endif %}
+			</div>
+		</div>
 
-<a href="{% url 'posts:create' %}">Submit a new post!</a>
+	</div>
+</main>

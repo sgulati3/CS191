@@ -1,0 +1,28 @@
+/* Override Bootstrap */
+p {
+	margin: 1em 0;
+}
+
+.navbar {
+	box-shadow: none;
+	border: none;
+}
+
+.jumbotron-main {
+	background: #D9EDF7;
+}
+
+.navbar {
+	margin: 0;
+}
+
+#topics.affix {
+	top: 20px;
+}
+
+/* Disable affix for mobile and small screens */
+@media (max-width: 768px) {
+    .affix {
+        position: static;
+    }
+}

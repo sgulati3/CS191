@@ -1,7 +1,26 @@
-<h1>{{ post.title }}</h1>
-<h3>{{ post.get_post_type_display }}</h3>
-<h3>{{ post.date }}</h3> 
-<p>{{ post.text }}</p> 
-{% if post.url %}
-    <p>{{ post.url }}</p> 
-{% endif %}
+{% include "includes/head.html" %}
+
+{% include "includes/header.html" %}
+
+<main>
+	<div class="container-fluid">
+		<p><a href="/posts">Back to posts</a></p>
+		<div class="panel panel-primary">
+			<div class="panel-heading clearfix">
+				<h3 class="panel-title pull-left">{{ post.title }}</h3>
+				<span class="pull-right">{{post.date}}</span>
+			</div>
+			<div class="panel-body">
+				<p>{{ post.text }}</p>
+				{% if post.url %}
+				<p>
+					<a href="{{ post.url }}">External Link</a>
+				</p> 
+				{% endif %}
+			</div>
+			<div class="panel-footer">
+				{{ post.get_post_type_display }}
+			</div> 
+		</div>
+	</div>
+</main>
