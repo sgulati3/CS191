@@ -1,6 +1,15 @@
+/* Override Bootstrap */
+p {
+	margin: 1em 0;
+}
+
+.navbar {
+	box-shadow: none;
+	border: none;
+}
+
 .jumbotron-main {
 	background: #D9EDF7;
-	margin-top: 0;
 }
 
 .navbar {
