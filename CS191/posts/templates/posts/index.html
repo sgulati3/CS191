@@ -4,10 +4,12 @@
   <ul>
     {% for post in latest_post_list %}
       <li>
-          <a href="{% url 'posts:detail' post.id %}">{{ post.title }}</a>
+        <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
       </li>
     {% endfor %}
   </ul>
 {% else %}
   <h3>No posts are available</h3>
 {% endif %}
+
+<a href="{% url 'posts:create' %}">Submit a new post!</a>
