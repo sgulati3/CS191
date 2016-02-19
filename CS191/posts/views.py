@@ -9,7 +9,7 @@ from .models import Post
 
 def index(request):
     all_posts = Post.objects.all().order_by('date')
-    paginator = Paginator(all_posts, 3) # Show 10 posts per page
+    paginator = Paginator(all_posts, 5) # Show 5 posts per page
     page_num = request.GET.get('page')
 
     try:
