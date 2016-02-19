@@ -32,18 +32,35 @@
 				</div>
 			</div>
 
-            <!-- TODO: Raymond, make this button pretty -->
-			<div class="col-md-9 col-sm-9">
+            <!-- TODO: Raymond, make this pretty -->
+			<div id="raymond-make-this-shit-pretty" class="col-md-9 col-sm-9">
 				<div class="row">
 					<div class="col-md-12 col-sm-12">
                         <div class="panel panel-primary">
 							<div class="panel-body">
                                 <a type="submit" href="{% url 'posts:create' %}">Submit new post</a>
+                                <br/>
+                                <div class="pagination">
+                                    <span class="step-links">
+                                        {% if latest_post_list.has_previous %}
+                                            <a href="?page={{ latest_post_list.previous_page_number }}">previous</a>
+                                        {% endif %}
+
+                                        <span class="current">
+                                            - {{ latest_post_list.number }} of {{ latest_post_list.paginator.num_pages }} - 
+                                        </span>
+
+                                        {% if latest_post_list.has_next %}
+                                            <a href="?page={{ latest_post_list.next_page_number }}">next</a>
+                                        {% endif %}
+                                        (Currently displays 5 posts at a time. Can change this in views.py)
+                                    </span>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-			</div>
+            </div>
 
 			<div class="col-md-9 col-sm-9">
 				{% if latest_post_list %}
