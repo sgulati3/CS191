@@ -5,6 +5,7 @@ from django.utils import timezone
 
 from .forms import PostForm
 from .models import Post
+from tags.models import Tag
 
 
 def index(request):
@@ -31,8 +32,8 @@ def detail(request, post_id):
     post = get_object_or_404(Post, id=post_id)
     context = {
         'post': post,
+        'tags': post.get_tags_by_post(),
     }
-
     return render(request, 'posts/detail.html', context)
 
 def create(request):
@@ -42,6 +43,13 @@ def create(request):
             post = form.save(commit=False)
             post.date = timezone.now()
             post.save()
+
+            # add tags
+            for i in range(0, int(request.POST.get("numTags"))):
+                tagTitle = request.POST.get("tag" + str(i))
+                newTag = Tag.objects.create(title=tagTitle, post=post, votes=0)
+                newTag.save()
+
             return redirect(post)
     else:
         form = PostForm()

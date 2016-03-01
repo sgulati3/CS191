@@ -19,7 +19,15 @@
 				{% endif %}
 			</div>
 			<div class="panel-footer">
-				{{ post.get_post_type_display }}
+				{{ post.get_post_type_display }} | 
+                Tags:
+                {% if tags != None %}
+                    {% for tag in tags %}
+                        {% if tag != None %}
+                            {{ tag.title }}
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
 			</div> 
 		</div>
 	</div>
