@@ -1,0 +1,40 @@
+@font-face {
+  font-family: 'Avenir Light';
+  src: url('../fonts/avenir-light.woff') format('woff');
+}
+
+.img-logo {
+	height: 50px;
+}
+
+header .header-content .header-content-inner h1 {
+	font-family: Avenir Light;
+	text-transform: lowercase;
+}
+
+.navbar-brand {
+	padding: 2px 0 0 5px;
+}
+
+.process-box {
+	margin: 20px;
+	padding: 50px 0;
+	background: #72B5C7;
+	color: white;
+}
+
+@media (max-width: 992px) {
+	.process-box {
+		margin: 10px;
+		padding: 25px 0;
+	}
+}
+
+.process-box div:not(:last-child) {
+	margin-bottom: 20px;
+}
+
+.process-title {
+	font-family: Open Sans, Helvetica Neue, Arial, sans-serif;
+	font-size: 1.5em;
+}
