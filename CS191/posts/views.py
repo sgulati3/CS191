@@ -1,4 +1,3 @@
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.urlresolvers import reverse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
@@ -8,21 +7,9 @@ from .models import Post
 
 
 def index(request):
-    all_posts = Post.objects.all().order_by('date')
-    paginator = Paginator(all_posts, 5) # Show 5 posts per page
-    page_num = request.GET.get('page')
-
-    try:
-        paginated_posts = paginator.page(page_num)
-    except PageNotAnInteger:
-        # If page is not an integer, deliver first page.
-        paginated_posts = paginator.page(1)
-    except EmptyPage:
-        # If page is out of range (e.g. 9999), deliver last page of results.
-        paginated_posts = paginator.page(paginator.num_pages)
-
+    latest_post_list = Post.objects.order_by('date')[:5]
     context = {
-        'latest_post_list': paginated_posts,
+        'latest_post_list': latest_post_list,
     }
 
     return render(request, 'posts/index.html', context)
