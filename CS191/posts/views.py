@@ -1,3 +1,4 @@
+# from django.contrib.gis.geoip import GeoIP
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.urlresolvers import reverse
 from django.shortcuts import get_object_or_404, redirect, render
@@ -10,7 +11,7 @@ from tags.models import Tag
 
 # Default page that displays all posts
 def index(request):
-    all_posts = Post.objects.all().order_by('date')
+    all_posts = Post.objects.all().order_by('-date')
     paginator = Paginator(all_posts, 5) # Show 5 posts per page
     page_num = request.GET.get('page')
 
@@ -45,6 +46,15 @@ def create(request):
         if form.is_valid():
             post = form.save(commit=False)
             post.date = timezone.now()
+
+            # Setting location
+            # g = GeoIP()
+            # ip = request.META.get('REMOTE_ADDR')
+            # if ip:
+            #     post.location = str(g.city(ip) + ", " + str(g.country(ip))
+            # else:
+            #     city = 'Rome'
+
             post.save()
 
             # add tags

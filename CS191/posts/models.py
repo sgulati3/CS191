@@ -9,23 +9,21 @@ import datetime
 class Post(models.Model):
     title = models.CharField(max_length=140)
     date = models.DateTimeField(default=datetime.datetime.now)
+    location = models.CharField(max_length=140)
     text = models.TextField()
 
-    ARTICLE = 'AP' # Text Post
     VIDEO = 'VP' # Video Post
     PHOTO = 'PP' # Single photo
-    SLIDES = 'SP' # Multiple photos
 
     POST_TYPE_CHOICES = (
-        ('AP', 'Article Post'),
         ('VP', 'Video Post'),
         ('PP', 'Photo Post'),
-        ('SP', 'Slideshow Post'),
     )
 
     post_type = models.CharField(max_length=2, choices=POST_TYPE_CHOICES,
                                 blank=False, default='AP')
     url = models.URLField(null=True, blank=True)
+    photo = models.ImageField(null=True, blank=True, upload_to='posts')
 
     def __str__(self):
         return self.title
