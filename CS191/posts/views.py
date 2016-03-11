@@ -6,6 +6,7 @@ from django.utils import timezone
 from django.template.defaulttags import register
 
 from .forms import PostForm
+from .forms import SearchForm
 from .models import Post
 from tags.models import Tag
 
@@ -28,6 +29,7 @@ def index(request):
         paginated_posts = paginator.page(paginator.num_pages)
 
     context = {
+        'form': SearchForm,
         'latest_post_list': all_posts,
         'tag_map': {post.id : post.get_tags_by_post() for post in all_posts}
     }
@@ -44,6 +46,26 @@ def detail(request, post_id):
         'tag_titles': json.dumps([tag.title for tag in tags]),
     }
     return render(request, 'posts/detail.html', context)
+
+def search(request):
+    form = SearchForm(request.POST)
+    
+    if (form.is_valid()):
+        query = str(form.cleaned_data['query']).strip()
+        tags = Tag.objects.filter(title__icontains=query)
+        post_set = set([tag.post for tag in tags])
+        post_list = list(post_set)
+
+        context = {
+            'form': SearchForm,
+            'latest_post_list': post_list,
+            'tag_map': {post.id : post.get_tags_by_post() for post in post_list},
+        }
+
+        return render(request, 'posts/index.html', context)
+
+    else:
+        return index(request)
 
 # Creating a new post object
 def create(request):
