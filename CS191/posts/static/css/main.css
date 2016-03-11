@@ -17,6 +17,53 @@ p {
 	top: 20px;
 }
 
+#tag-warning {
+    height: 20px;
+    margin: 14px 0 14px 0;
+}
+
+.new-tag {
+    border-radius: 4px;
+    border: 2px solid black;
+    display: inline-block;
+    font-weight: bolder;
+    margin-right: 20px;
+    padding: 3px 20px 3px 20px;
+    width: auto;
+}
+
+.new-tag:hover {
+    border-color: red;
+    cursor: pointer;
+    color: red;
+}
+
+.update-tag {
+    border-radius: 4px;
+    border: 2px solid black;
+    display: inline-block;
+    font-weight: bolder;
+    margin-left: 20px;
+    padding: 3px 20px 3px 20px;
+    width: auto;
+}
+
+.update-tag-votes {
+    display: inline-block;
+}
+
+.unvoted-tag:hover {
+    border-color: orange;
+    color: orange;
+    cursor: pointer;
+}
+
+.voted-tag {
+    border-color: orange;
+    color: orange;
+    cursor: default;
+}
+
 /* Disable affix for mobile and small screens */
 @media (max-width: 768px) {
     .affix {

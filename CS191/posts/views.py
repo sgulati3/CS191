@@ -5,8 +5,10 @@ from django.utils import timezone
 
 from .forms import PostForm
 from .models import Post
+from tags.models import Tag
 
 
+# Default page that displays all posts
 def index(request):
     all_posts = Post.objects.all().order_by('date')
     paginator = Paginator(all_posts, 5) # Show 5 posts per page
@@ -27,14 +29,16 @@ def index(request):
 
     return render(request, 'posts/index.html', context)
 
+# Detail view for a given post
 def detail(request, post_id):
     post = get_object_or_404(Post, id=post_id)
     context = {
         'post': post,
+        'tags': post.get_tags_by_post(),
     }
-
     return render(request, 'posts/detail.html', context)
 
+# Creating a new post object
 def create(request):
     if request.method == 'POST':
         form = PostForm(request.POST)
@@ -42,6 +46,16 @@ def create(request):
             post = form.save(commit=False)
             post.date = timezone.now()
             post.save()
+
+            # add tags
+            for i in range(0, int(request.POST.get("numTags"))):
+                tagTitle = request.POST.get("hidden-tag-" + str(i))
+
+                if (tagTitle != ''):
+                    # Initialize tags with 1 vote
+                    newTag = Tag.objects.create(title=tagTitle, post=post, votes=1)
+                    newTag.save()
+
             return redirect(post)
     else:
         form = PostForm()

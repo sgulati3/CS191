@@ -18,5 +18,6 @@ from django.contrib import admin
 
 urlpatterns = [
     url(r'^posts/', include('posts.urls', namespace='posts')),
+    url(r'^tags/', include('tags.urls', namespace='tags')),
     url(r'^admin/', admin.site.urls),
 ]

@@ -2,11 +2,13 @@ from __future__ import unicode_literals
 
 from django.core.urlresolvers import reverse
 from django.db import models
+from tags.models import Tag
+import datetime
 
 
 class Post(models.Model):
     title = models.CharField(max_length=140)
-    date = models.DateTimeField('date submitted')
+    date = models.DateTimeField(default=datetime.datetime.now)
     text = models.TextField()
 
     ARTICLE = 'AP' # Text Post
@@ -30,3 +32,7 @@ class Post(models.Model):
 
     def get_absolute_url(self):
         return reverse('posts:detail', kwargs={'post_id': self.id})
+
+    def get_tags_by_post(self):
+        return Tag.objects.filter(post=self)
+
