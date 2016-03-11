@@ -15,7 +15,7 @@
 					<a href="#" class="list-group-item list-group-item-success">
 						<h4 class="list-group-item-heading">United States vs. Ferguson</h4>
 						<p class="list-group-item-text">
-							<p>39482 conversations</p>
+							<p>39,482 conversations</p>
 							<p><i class="fa fa-line-chart hot-topic"></i></p>
 						</p>
 					</a>
@@ -37,10 +37,11 @@
 			<div class="col-md-9 col-sm-9">
 				<div class="row">
 					<div class="col-md-12 col-sm-12">
-                        <div class="panel panel-primary">
-							<div class="panel-body">
-                                <a type="submit" href="{% url 'posts:create' %}">Submit new post</a>
-                                <br/>
+                        <!-- <div class="panel panel-primary"> -->
+							<!-- <div class="panel-body"> -->
+                                <a class="btn btn-primary margin-bottom" href="{% url 'posts:create' %}">Submit new post</a>
+                                <a class="btn btn-primary margin-bottom" href="board">Board</a>
+                                <!-- <br/>
                                 <div class="pagination">
                                     <span class="step-links">
                                         {% if latest_post_list.has_previous %}
@@ -56,55 +57,87 @@
                                         {% endif %}
                                         (Currently displays 5 posts at a time. Can change this in views.py)
                                     </span>
-                                </div>
-                            </div>
-                        </div>
+                                </div> -->
+                            <!-- </div> -->
+                        <!-- </div> -->
                     </div>
-                    {% if latest_post_list %}
-						{% for post in latest_post_list %}
-						<div class="col-md-12 col-sm-12">
-							<div class="panel panel-primary">
-								<div class="panel-heading clearfix">
-									<h3 class="panel-title pull-left">{{ post.title }}</h3>
-                                    <span class="pull-right">Event Date: {{ post.event_date }} | Submission Date: {{ post.sub_date }} | Location: {{ post.location }}</span>
-								</div>
-								<div class="panel-body">
-									<p>{{ post.text }}</p>
-									Tags:
-									{% for tag in tag_map|get_tags:post.id %}
-										<div class="unvoted-tag update-tag" value="{{ tag.title }}" post-id="{{ post.id }}">{{ tag.title }}
-		                                (<div class="update-tag-votes">{{ tag.votes }}</div>)
-		                            </div>
-									{% endfor %}
+                    {% if grouped_posts %}
 
-									{% if post.url %}
-									<p>
-										<a href="{{ post.url }}">External Link</a>
-									</p> 
-									{% endif %}
-								</div>
-								<div class="panel-footer clearfix">
-									<span class="pull-left">
-										{{ post.get_post_type_display }}
-									</span> 
-									<span class="pull-right">
-	                                    <a href="{{ post.get_absolute_url }}">Post Detail</a>
-									</span> 
-								</div> 
-							</div>
-						</div>
-						{% endfor %}
-					{% else %}
-					<div class="col-md-12 col-sm-12">
+                    	{% for group in grouped_posts %}
+                    	<div class="col-md-12 col-sm-12">
+                    		<div class="panel panel-primary post-group">
+                    			<div class="panel-heading" role="tab">
+                    				<h4 class="panel-title">
+                    					<a role="button" data-toggle="collapse" href="#{{ group|date_to_integer:group }}" aria-expanded="true" aria-controls="{{ group|date_to_integer:group }}">
+                    						{{ group }}
+                    					</a> 
+                    				</h4> 
+                    			</div> 
+                    			<div id="{{ group|date_to_integer:group }}" class="panel-collapse collapse in" role="tabpanel">
+                    				<div class="panel-body">
+                    					{% for post in grouped_posts|get_value:group %}
+			                    		<div class="col-md-12 col-sm-12">
+											<div class="panel panel-default">
+												<!-- <div class="panel-heading clearfix">
+													<h3 class="panel-title pull-left">{{ post.title }}</h3>
+				                                    <span class="pull-right">Event Date: {{ post.event_date }} | Submission Date: {{ post.sub_date }} | Location: {{ post.location }}</span>
+												</div> -->
+												<div class="panel-body">
+													<p>{{ post.text }}</p>
+
+													{% if post.photo %}
+									                    {% if post.photo.url %}
+									                        <img src="{{ post.photo.url }}" />
+									                    {% endif %}
+													{% endif %}
+
+													{% if tag_map|get_value:post.id %}
+														Tags:
+														{% for tag in tag_map|get_value:post.id %}
+															<div class="unvoted-tag update-tag" value="{{ tag.title }}" post-id="{{ post.id }}">{{ tag.title }}
+							                                (<div class="update-tag-votes">{{ tag.votes }}</div>)
+							                            </div>
+														{% endfor %}
+													{% endif %}
+
+													{% if post.url %}
+													<p>
+														<a href="{{ post.url }}">External Link</a>
+													</p> 
+													{% endif %}
+												</div>
+												<div class="panel-footer clearfix">
+													<span class="pull-left small">
+														{{ post.event_date }}
+														<!-- {{ post.get_post_type_display }} -->
+														<!-- Event Date: {{ post.event_date }} | Submission Date: {{ post.sub_date }} -->
+													</span> 
+													<span class="pull-right small">
+														<i class="fa fa-map-marker"></i> {{ post.location }}
+					                                    <!-- <a href="{{ post.get_absolute_url }}">Post Detail</a> -->
+													</span> 
+												</div> 
+											</div>
+										</div>
+
+			                    		{% endfor %}
+                    				</div> 
+                    			</div> 
+                    		</div> 
+                    	</div>
+                    	{% endfor %}
+
+                    {% else %}
+                    <div class="col-md-12 col-sm-12">
 						<h3>No posts available</h3>
 					</div>
 					{% endif %}
+					
 				</div>
 			</div>
 		</div>
-
 	</div>
 </main>
 
 {% include "includes/tags.html" %}
-<script src="{% static "js/grid.js" %}"></script>
+<script src="{% static "js/affix.custom.js" %}"></script>

@@ -1,6 +1,14 @@
+body {
+	background: #F7F9F9;
+}
+
 /* Override Bootstrap */
 p {
 	margin: 1em 0;
+}
+
+.margin-bottom {
+	margin-bottom: 1em;
 }
 
 .navbar {
@@ -22,6 +30,10 @@ p {
     .affix {
         position: static;
     }
+}
+
+.post-group {
+	box-shadow: 0px 0px 8px rgba(0,0,0,0.3);
 }
 
 /* Masonry for board */
