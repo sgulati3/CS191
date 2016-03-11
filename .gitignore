@@ -5,3 +5,6 @@
 *.log
 *.pot
 CS191/geoip/
+posts/migrations/*
+tags/migrations/*
+db.sqlite3
