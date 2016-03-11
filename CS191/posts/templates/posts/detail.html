@@ -41,7 +41,7 @@
                     <div id="visible-tag-list">
                         {% for tag in tags %}
                             {% if tag != None %}
-                                <div class="unvoted-tag update-tag" value="{{ tag.title }}">{{ tag.title }}
+                                <div class="unvoted-tag update-tag" value="{{ tag.title }}" post-id="{{ post.id }}">{{ tag.title }}
                                     (<div class="update-tag-votes">{{ tag.votes }}</div>)
                                 </div>
                             {% endif %}

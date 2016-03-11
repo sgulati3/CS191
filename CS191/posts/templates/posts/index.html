@@ -1,3 +1,5 @@
+{% load staticfiles %}
+
 {% include "includes/head.html" %}
 {% include "includes/header.html" %}
 
@@ -70,7 +72,7 @@
 									<p>{{ post.text }}</p>
 									Tags:
 									{% for tag in tag_map|get_tags:post.id %}
-										<div class="unvoted-tag update-tag" value="{{ tag.title }}" postid="{{ post.id }}">{{ tag.title }}
+										<div class="unvoted-tag update-tag" value="{{ tag.title }}" post-id="{{ post.id }}">{{ tag.title }}
 		                                (<div class="update-tag-votes">{{ tag.votes }}</div>)
 		                            </div>
 									{% endfor %}
@@ -105,3 +107,4 @@
 </main>
 
 {% include "includes/tags.html" %}
+<script src="{% static "js/grid.js" %}"></script>

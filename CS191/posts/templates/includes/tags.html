@@ -1,7 +1,7 @@
+<!-- Need to use a html file for this instead of tags.js so Django template expressions can be accessed, e.g. {{ tag_titles }} -->
+
 <script>
-(function() {
-    tagList = {{ tag_titles|safe }};                                        
-    created = 0;                                                            
+(function() {                                                         
 
     $('.unvoted-tag').click(function() {                                    
         vote($(this));                                                      
@@ -13,7 +13,7 @@
         return false;                                                       
     });                                                                     
 
-    function vote(curTag) {                                                 
+    function vote(curTag) {  
         // Now onclick will trigger unvoting                                
         curTag.unbind();                                                    
         curTag.bind('click', function () { unvote(curTag); });              
@@ -27,12 +27,15 @@
         curTag.find('>:first-child').text(newVotes);                        
 
         // Grabs the tag's text                                             
-        var tag_title = curTag.context.getAttribute('value');               
+        var tag_title = curTag.context.getAttribute('value');    
+
+        // Grabs the tag's text                                             
+        var postID = curTag.context.getAttribute('post-id');   
 
         // Updates the tag's number of votes in the Django backend          
         $.ajax({                                                            
             type:'POST',                                                    
-            url:'../tags/vote/{{ post.id }}/' + tag_title,                  
+            url:'/tags/vote/' + postID + '/' + tag_title,                  
         });                                                                 
     }                                                                       
 
@@ -50,12 +53,15 @@
         curTag.find('>:first-child').text(newVotes);                        
 
         // Grabs the tag's text                                             
-        var tag_title = curTag.context.getAttribute('value');               
+        var tag_title = curTag.context.getAttribute('value');
+
+        // Grabs the tag's text                                             
+        var postID = curTag.context.getAttribute('post-id');           
                             
         // Updates the tag's number of votes in the Django backend          
         $.ajax({                                                            
             type:'POST',                                                    
-            url:'../tags/unvote/{{ post.id }}/' + tag_title,                
+            url:'/tags/unvote/' + postID + '/' + tag_title,                
         });                                                                 
     }                                                                       
 
@@ -65,7 +71,9 @@
     }});                                                                    
 
     // When we add a tag                                                    
-    $('#new-tag-button').click(function(e) {                                
+    $('#new-tag-button').click(function(e) {  
+        var tagList = {{ tag_titles|safe }};                               
+        var created = 0;                                 
         // Grabs the new tag text and clears spaces                         
         var newTagTitle = $('#new-tag-field').val().replace(/\W/g, '');     
 
@@ -78,7 +86,7 @@
             created++;                                                      
 
             // Add to the displayed visible tag list                        
-            $('#visible-tag-list').append('<div id=\"new-' + created + '\"class=\"voted-tag update-tag\" value=\"' + newTagTitle + '\">' + newTagTitle + ' (<div class=\"update-tag-votes\">1</div>)</div>');
+            $('#visible-tag-list').append('<div id=\"new-' + created + '\"class=\"voted-tag update-tag\" value=\"' + newTagTitle + '\"post-id=\"{{post.id}}\"' + '\">' + newTagTitle + ' (<div class=\"update-tag-votes\">1</div>)</div>');
             var curTag = $('#new-' + created);                              
             curTag.context = curTag[0];                                     
             curTag.bind('click', function () { unvote(curTag); });          
@@ -97,4 +105,4 @@
     });
 
 })();
-</script> 
+</script>

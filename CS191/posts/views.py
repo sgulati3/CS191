@@ -29,7 +29,8 @@ def index(request):
 
     context = {
         'latest_post_list': all_posts,
-        'tag_map': {post.id : post.get_tags_by_post() for post in all_posts}
+        'tag_map': {post.id : post.get_tags_by_post() for post in all_posts},
+        'tag_titles': None
     }
 
     return render(request, 'posts/index.html', context)
