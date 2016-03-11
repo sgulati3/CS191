@@ -23,12 +23,11 @@ class Post(models.Model):
     post_type = models.CharField(max_length=2, choices=POST_TYPE_CHOICES,
                                  blank=False, default='AP')
 
-
     EVENT_TYPE_CHOICES = (
+        ('NA', 'Not Currently Trending'),
         ('BR', 'Baltimore Uprising'),
         ('FP', 'Ferguson Protests'),
         ('SL', 'Stand With Leah'),
-        ('NA', 'Not Currently Trending'),
     )
     event = models.CharField(max_length=2, choices=EVENT_TYPE_CHOICES,
                              blank=False, default='NA')

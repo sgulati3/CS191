@@ -68,13 +68,27 @@ def search(request):
     
     if (form.is_valid()):
         query = str(form.cleaned_data['query']).strip()
+        event = str(form.cleaned_data['event'])
         tags = Tag.objects.filter(title__icontains=query)
-        post_set = set([tag.post for tag in tags])
+        post_set = set()
+
+        if query == "":
+            for post in Post.objects.all():
+                if event == 'NA' or post.event == event:
+                    post_set.add(post)
+        else:
+            for tag in tags:
+                if event == 'NA' or tag.post.event == event:
+                    post_set.add(tag.post)
+
         post_list = list(post_set)
+        grouped_posts = defaultdict(list)
+        for post in post_list:
+            grouped_posts[post.event_date.date()].append(post)
 
         context = {
             'form': SearchForm,
-            'latest_post_list': post_list,
+            'grouped_posts': grouped_posts,
             'tag_map': {post.id : post.get_tags_by_post() for post in post_list},
         }
 
