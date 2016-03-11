@@ -3,6 +3,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.urlresolvers import reverse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
+from django.template.defaulttags import register
 
 from .forms import PostForm
 from .models import Post
@@ -26,7 +27,7 @@ def index(request):
 
     context = {
         'latest_post_list': all_posts,
-        'tag_map': {post.id : post.get_tags_by_post() for post in paginated_posts}
+        'tag_map': {post.id : post.get_tags_by_post() for post in all_posts}
     }
 
     return render(request, 'posts/index.html', context)
@@ -78,5 +79,8 @@ def create(request):
     return render(request, 'posts/create.html', context)
 
 def board(request):
-    
     return render(request, 'posts/board.html')
+
+@register.filter
+def get_tags(dictionary, key):
+    return dictionary.get(key)
