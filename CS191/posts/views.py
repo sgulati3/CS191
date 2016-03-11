@@ -11,7 +11,7 @@ from tags.models import Tag
 
 # Default page that displays all posts
 def index(request):
-    all_posts = Post.objects.all().order_by('-date')
+    all_posts = Post.objects.all().order_by('-event_date')
     paginator = Paginator(all_posts, 5) # Show 5 posts per page
     page_num = request.GET.get('page')
 
@@ -26,6 +26,7 @@ def index(request):
 
     context = {
         'latest_post_list': paginated_posts,
+        'tag_map': {post.id : post.get_tags_by_post() for post in paginated_posts}
     }
 
     return render(request, 'posts/index.html', context)

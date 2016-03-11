@@ -8,7 +8,8 @@ import datetime
 
 class Post(models.Model):
     title = models.CharField(max_length=140)
-    date = models.DateTimeField(default=datetime.datetime.now)
+    event_date = models.DateTimeField(default=datetime.datetime.now)
+    sub_date = models.DateTimeField(default=datetime.datetime.now)
     location = models.CharField(max_length=140)
     text = models.TextField()
 

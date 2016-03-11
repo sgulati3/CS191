@@ -11,7 +11,7 @@
             <!-- Header contains title and date -->
 			<div class="panel-heading clearfix">
 				<h3 class="panel-title pull-left">{{ post.title }}</h3>
-                <span class="pull-right">{{ post.date }} | {{ post.location }}</span>
+                <span class="pull-right">Event Date: {{ post.event_date }} | Submission Date: {{ post.sub_date }} | Location: {{ post.location }}</span>
 			</div>
 
 
@@ -22,8 +22,10 @@
 					<a href="{{ post.url }}">External Link</a>
 				{% endif %}
 
-				{% if post.photo.url %}
-                    <img src="{{ post.photo.url }}">
+				{% if post.photo %}
+                    {% if post.photo.url %}
+                        <img src="{{ post.photo.url }}">
+                    {% endif %}
 				{% endif %}
 
                 <hr/>
