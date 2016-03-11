@@ -20,9 +20,19 @@ class Post(models.Model):
         ('VP', 'Video Post'),
         ('PP', 'Photo Post'),
     )
-
     post_type = models.CharField(max_length=2, choices=POST_TYPE_CHOICES,
-                                blank=False, default='AP')
+                    blank=False, default='AP')
+
+
+    EVENT_TYPE_CHOICES = (
+        ('BR', 'Baltimore Uprising'),
+        ('FP', 'Ferguson Protests'),
+        ('SL', 'Stand With Leah'),
+        ('NA', 'Not Currently Trending'),
+    )
+    event = models.CharField(max_length=2, choices=EVENT_TYPE_CHOICES,
+                    blank=False, default='BR')
+
     url = models.URLField(null=True, blank=True)
     photo = models.ImageField(null=True, blank=True)
 
