@@ -6,14 +6,11 @@ p {
 .navbar {
 	box-shadow: none;
 	border: none;
+	margin: 0;
 }
 
 .jumbotron-main {
 	background: #D9EDF7;
-}
-
-.navbar {
-	margin: 0;
 }
 
 #topics.affix {
