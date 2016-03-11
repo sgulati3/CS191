@@ -75,3 +75,7 @@ def create(request):
     }
 
     return render(request, 'posts/create.html', context)
+
+def board(request):
+    
+    return render(request, 'posts/board.html')
