@@ -25,8 +25,9 @@
                         </div>
                         {% endif %}
                     </div>
-                    <div class="test">
-                        <h6 class="text-muted margin-top">Event Date: {{ post.event_date }}</h6> 
+                    <div class="big-margin-top">
+                        <h6 class="text-muted">Event: {{ post.get_event_display }}</h6>
+                        <h6 class="text-muted">Event Date: {{ post.event_date }}</h6> 
                         <h6 class="text-muted">Submission Date: {{ post.sub_date }}</h6>
                         <h6 class="text-muted">Location: {{ post.location }}</h6>
                         <!-- Total number of endorsements -->
