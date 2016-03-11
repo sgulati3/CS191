@@ -8,6 +8,8 @@ from .forms import PostForm
 from .models import Post
 from tags.models import Tag
 
+import json
+
 
 # Default page that displays all posts
 def index(request):
@@ -34,9 +36,11 @@ def index(request):
 # Detail view for a given post
 def detail(request, post_id):
     post = get_object_or_404(Post, id=post_id)
+    tags = post.get_tags_by_post()
     context = {
         'post': post,
-        'tags': post.get_tags_by_post(),
+        'tags': tags,
+        'tag_titles': json.dumps([tag.title for tag in tags]),
     }
     return render(request, 'posts/detail.html', context)
 

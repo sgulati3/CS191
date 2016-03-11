@@ -29,16 +29,25 @@
 				{% endif %}
 
                 <hr/>
-                Tags:     
-                {% if tags != None %}
-                    {% for tag in tags %}
-                        {% if tag != None %}
-                            <div class="unvoted-tag update-tag" value="{{ tag.title }}">{{ tag.title }}
-                                (<div class="update-tag-votes">{{ tag.votes }}</div>)
-                            </div>
-                        {% endif %}
-                    {% endfor %}
-                {% endif %}
+                <p id="new-tagger">
+                    <p><span>Add Tags: </span><span id="warning"></span></p>
+                    <input id="new-tag-field" maxlength="16" name="title" type="text"/>
+                    <button id="new-tag-button">Add</button>
+                </p>
+
+                <hr/>
+                    Tags:     
+                    {% if tags != None %}
+                        <div id="visible-tag-list">
+                            {% for tag in tags %}
+                                {% if tag != None %}
+                                    <div class="unvoted-tag update-tag" value="{{ tag.title }}">{{ tag.title }}
+                                        (<div class="update-tag-votes">{{ tag.votes }}</div>)
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
 			</div>
 
             <!-- Footer contains post type -->
@@ -54,6 +63,9 @@
 
 <script>
     $(document).ready(function() {
+        tagList = {{ tag_titles|safe }}; 
+        created = 0;
+
         $('.unvoted-tag').click(function() {
             vote($(this));
             return false;
@@ -78,8 +90,8 @@
             curTag.find('>:first-child').text(newVotes);
 
             // Grabs the tag's text
-            var tag_title = curTag.find('>:first-child').context.getAttribute('value');
-
+            var tag_title = curTag.context.getAttribute('value');
+            
             // Updates the tag's number of votes in the Django backend
             $.ajax({
                 type:'POST',
@@ -101,19 +113,50 @@
             curTag.find('>:first-child').text(newVotes);
 
             // Grabs the tag's text
-            var tag_title = curTag.find('>:first-child').context.getAttribute('value');
+            var tag_title = curTag.context.getAttribute('value');
 
             // Updates the tag's number of votes in the Django backend
             $.ajax({
                 type:'POST',
                 url:'../tags/unvote/{{ post.id }}/' + tag_title,
             }); 
-
         }
 
         // Adds csrf token so we can update a tag's votes in the Django backend
         $.ajaxSetup({data: {
             csrfmiddlewaretoken: '{{ csrf_token }}'
         }});
+
+        // When we add a tag
+        $('#new-tag-button').click(function(e) {
+            // Grabs the new tag text and clears spaces
+            var newTagTitle = $('#new-tag-field').val().replace(/\W/g, '');
+
+            if (newTagTitle.length == 0) {
+                $('#warning').text('Please enter a tag below');
+            } else if (tagList.indexOf(newTagTitle) != -1) {
+                $('#warning').text('You\'ve already used that tag!');
+            } else {
+                tagList.push(newTagTitle);
+                created++;
+
+                // Add to the displayed visible tag list
+                $('#visible-tag-list').append('<div id=\"new-' + created + '\"class=\"voted-tag update-tag\" value=\"' + newTagTitle + '\">' + newTagTitle + ' (<div class=\"update-tag-votes\">1</div>)</div>');
+                var curTag = $('#new-' + created);
+                curTag.context = curTag[0];
+                curTag.bind('click', function () { unvote(curTag); });
+
+                $.ajax({
+                    type:'POST',
+                    url:'../tags/create/{{ post.id }}/' + newTagTitle,
+                }); 
+
+                // Display success message
+                $('#warning').text('Tag submitted');
+            }
+
+            $('#new-tag-field').val('');
+            return false;
+        });
     });
 </script> 

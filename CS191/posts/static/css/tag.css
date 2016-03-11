@@ -9,6 +9,7 @@
     display: inline-block;
     font-weight: bolder;
     margin-right: 20px;
+    margin-top: 20px;
     padding: 3px 20px 3px 20px;
     width: auto;
 }
@@ -24,7 +25,8 @@
     border: 2px solid black;
     display: inline-block;
     font-weight: bolder;
-    margin-left: 20px;
+    margin-right: 20px;
+    margin-top: 20px;
     padding: 3px 20px 3px 20px;
     width: auto;
 }
@@ -42,5 +44,5 @@
 .voted-tag {
     border-color: orange;
     color: orange;
-    cursor: default;
+    cursor: pointer;
 }

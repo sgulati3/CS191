@@ -2,7 +2,15 @@ from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, render
 
 from .models import Tag
+from posts.models import Post
 
+
+def create(request, post_id, tag_title):
+    if request.method == 'POST':
+        post = get_object_or_404(Post, id=post_id)
+        newTag = Tag.objects.create(title=tag_title, post=post, votes=1)
+
+    return HttpResponse(status=204)
 
 # Increment votes
 def vote(request, post_id, tag_title):
