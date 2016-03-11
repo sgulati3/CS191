@@ -23,7 +23,7 @@ class Post(models.Model):
     post_type = models.CharField(max_length=2, choices=POST_TYPE_CHOICES,
                                 blank=False, default='AP')
     url = models.URLField(null=True, blank=True)
-    photo = models.ImageField(null=True, blank=True, upload_to='posts')
+    photo = models.ImageField(null=True, blank=True, upload_to='posts/static/images')
 
     def __str__(self):
         return self.title
