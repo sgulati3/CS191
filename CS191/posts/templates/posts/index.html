@@ -33,7 +33,6 @@
 			</div>
 
 			<div class="col-md-9 col-sm-9">
-				{% if latest_post_list %}
 				<div class="row">
 					<div class="col-md-12 col-sm-12">
                         <div class="panel panel-primary">
@@ -59,36 +58,39 @@
                             </div>
                         </div>
                     </div>
-					{% for post in latest_post_list %}
-					<div class="col-md-12 col-sm-12">
-						<div class="panel panel-primary">
-							<div class="panel-heading clearfix">
-								<h3 class="panel-title pull-left">{{ post.title }}</h3>
-                                <span class="pull-right">Event Date: {{ post.event_date }} | Submission Date: {{ post.sub_date }} | Location: {{ post.location }}</span>
+                    {% if latest_post_list %}
+						{% for post in latest_post_list %}
+						<div class="col-md-12 col-sm-12">
+							<div class="panel panel-primary">
+								<div class="panel-heading clearfix">
+									<h3 class="panel-title pull-left">{{ post.title }}</h3>
+                                    <span class="pull-right">Event Date: {{ post.event_date }} | Submission Date: {{ post.sub_date }} | Location: {{ post.location }}</span>
+								</div>
+								<div class="panel-body">
+									<p>{{ post.text }}</p>
+									{% if post.url %}
+									<p>
+										<a href="{{ post.url }}">External Link</a>
+									</p> 
+									{% endif %}
+								</div>
+								<div class="panel-footer clearfix">
+									<span class="pull-left">
+										{{ post.get_post_type_display }}
+									</span> 
+									<span class="pull-right">
+	                                    <a href="{{ post.get_absolute_url }}">Post Detail</a>
+									</span> 
+								</div> 
 							</div>
-							<div class="panel-body">
-								<p>{{ post.text }}</p>
-								{% if post.url %}
-								<p>
-									<a href="{{ post.url }}">External Link</a>
-								</p> 
-								{% endif %}
-							</div>
-							<div class="panel-footer clearfix">
-								<span class="pull-left">
-									{{ post.get_post_type_display }}
-								</span> 
-								<span class="pull-right">
-                                    <a href="{{ post.get_absolute_url }}">Post Detail</a>
-								</span> 
-							</div> 
 						</div>
+						{% endfor %}
+					{% else %}
+					<div class="col-md-12 col-sm-12">
+						<h3>No posts available</h3>
 					</div>
-					{% endfor %}
+					{% endif %}
 				</div>
-				{% else %}
-				<h3>No posts available</h3>
-				{% endif %}
 			</div>
 		</div>
 
