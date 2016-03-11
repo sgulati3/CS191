@@ -22,6 +22,10 @@
 					<a href="{{ post.url }}">External Link</a>
 				{% endif %}
 
+				{% if post.photo.url %}
+                    <img src="{{ post.photo.url }}">
+				{% endif %}
+
                 <hr/>
                 Tags:     
                 {% if tags != None %}
