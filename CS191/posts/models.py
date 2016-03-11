@@ -21,7 +21,7 @@ class Post(models.Model):
         ('PP', 'Photo Post'),
     )
     post_type = models.CharField(max_length=2, choices=POST_TYPE_CHOICES,
-                    blank=False, default='AP')
+                                 blank=False, default='AP')
 
 
     EVENT_TYPE_CHOICES = (
@@ -31,7 +31,7 @@ class Post(models.Model):
         ('NA', 'Not Currently Trending'),
     )
     event = models.CharField(max_length=2, choices=EVENT_TYPE_CHOICES,
-                    blank=False, default='BR')
+                             blank=False, default='NA')
 
     url = models.URLField(null=True, blank=True)
     photo = models.ImageField(null=True, blank=True)
