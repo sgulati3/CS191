@@ -1,0 +1,27 @@
+{% include "includes/head.html" %}
+{% include "includes/header.html" %}
+
+<main>
+	<div class="masonry">
+		<div class="masonry-item panel panel-default">
+			<div class="panel-header">
+				<img src="imgurl" />
+			</div> 
+			<div class="panel-body">
+				<p>This is the caption to a photo.</p> 
+				<h6 class="text-muted">Stanford, CA</h6>
+			</div>
+		</div>
+		<div class="masonry-item panel panel-default">
+			<div class="panel-header">
+				<iframe src="https://www.youtube.com/embed/BgfcToAjfdc" frameborder="0" allowfullscreen></iframe>
+			</div> 
+			<div class="panel-body">
+				<p>This is the caption to a video.</p> 
+				<h6 class="text-muted">Stanford, CA</h6>
+			</div>
+		</div>		
+	</div>
+</main>
+
+{% include "includes/masonry-scripts.html" %}

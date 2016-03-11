@@ -26,3 +26,18 @@ p {
         position: static;
     }
 }
+
+/* Masonry for board */
+.masonry {
+	margin: 0 auto;
+	width: 100%;
+}
+
+.masonry-item {
+	width: 300px;
+	margin-bottom: 20px;
+}
+
+.masonry-item img {
+	width: 100%;
+}
