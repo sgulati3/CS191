@@ -1,70 +1,100 @@
 <script>
 (function() {
-    $('.unvoted-tag').click(function() {
-        vote($(this));
-        return false;
+    tagList = {{ tag_titles|safe }};                                        
+    created = 0;                                                            
+
+    $('.unvoted-tag').click(function() {                                    
+        vote($(this));                                                      
+        return false;                                                       
+    });                                                                     
+
+    $('.voted-tag').click(function() {                                      
+        unvote($(this));                                                    
+        return false;                                                       
+    });                                                                     
+
+    function vote(curTag) {                                                 
+        // Now onclick will trigger unvoting                                
+        curTag.unbind();                                                    
+        curTag.bind('click', function () { unvote(curTag); });              
+
+        // Indicate the tag has been voted on by its classes                
+        curTag.removeClass('unvoted-tag');                                  
+        curTag.addClass('voted-tag');                                       
+
+        // Update the displayed number of votes                             
+        var newVotes = parseInt(curTag.find('>:first-child').text()) + 1;   
+        curTag.find('>:first-child').text(newVotes);                        
+
+        // Grabs the tag's text                                             
+        var tag_title = curTag.context.getAttribute('value');               
+
+        // Updates the tag's number of votes in the Django backend          
+        $.ajax({                                                            
+            type:'POST',                                                    
+            url:'../tags/vote/{{ post.id }}/' + tag_title,                  
+        });                                                                 
+    }                                                                       
+
+    function unvote(curTag) {                                               
+        // Now onclick will trigger unvoting                                
+        curTag.unbind();                                                    
+        curTag.bind('click', function () { vote(curTag); });                
+
+        // Indicate the tag has been voted on by its classes                
+        curTag.removeClass('voted-tag');                                    
+        curTag.addClass('unvoted-tag');                                     
+
+        // Update the displayed number of votes                             
+        var newVotes = parseInt(curTag.find('>:first-child').text()) - 1;   
+        curTag.find('>:first-child').text(newVotes);                        
+
+        // Grabs the tag's text                                             
+        var tag_title = curTag.context.getAttribute('value');               
+                            
+        // Updates the tag's number of votes in the Django backend          
+        $.ajax({                                                            
+            type:'POST',                                                    
+            url:'../tags/unvote/{{ post.id }}/' + tag_title,                
+        });                                                                 
+    }                                                                       
+
+    // Adds csrf token so we can update a tag's votes in the Django backend 
+    $.ajaxSetup({data: {                                                    
+        csrfmiddlewaretoken: '{{ csrf_token }}'                             
+    }});                                                                    
+
+    // When we add a tag                                                    
+    $('#new-tag-button').click(function(e) {                                
+        // Grabs the new tag text and clears spaces                         
+        var newTagTitle = $('#new-tag-field').val().replace(/\W/g, '');     
+
+        if (newTagTitle.length == 0) {                                      
+            $('#warning').text('Please enter a tag below');                 
+        } else if (tagList.indexOf(newTagTitle) != -1) {                    
+            $('#warning').text('You\'ve already used that tag!');           
+        } else {                                                            
+            tagList.push(newTagTitle);                                      
+            created++;                                                      
+
+            // Add to the displayed visible tag list                        
+            $('#visible-tag-list').append('<div id=\"new-' + created + '\"class=\"voted-tag update-tag\" value=\"' + newTagTitle + '\">' + newTagTitle + ' (<div class=\"update-tag-votes\">1</div>)</div>');
+            var curTag = $('#new-' + created);                              
+            curTag.context = curTag[0];                                     
+            curTag.bind('click', function () { unvote(curTag); });          
+                                                                    
+            $.ajax({                                                        
+                type:'POST',                                                
+                url:'../tags/create/{{ post.id }}/' + newTagTitle,          
+            });                                                             
+                        
+            // Display success message                                      
+            $('#warning').text('Tag submitted');                            
+        }                                                                   
+                                                                
+        $('#new-tag-field').val('');                                        
+        return false;                                                       
     });
 
-    $('.voted-tag').click(function() {
-        unvote($(this));
-        return false;
-    });
-
-    function vote(curTag) {
-        // Now onclick will trigger unvoting
-        curTag.unbind();
-        curTag.bind('click', function () { unvote(curTag); });
-
-        // Indicate the tag has been voted on by its classes
-        curTag.removeClass('unvoted-tag');
-        curTag.addClass('voted-tag');
-
-        // Update the displayed number of votes
-        var newVotes = parseInt(curTag.find('>:first-child').text()) + 1;
-        curTag.find('>:first-child').text(newVotes);
-
-        // Grabs the tag's text
-        var tag_title = curTag.find('>:first-child').context.getAttribute('value');
-
-        // Grabs the tag's post's id
-        var post_id = curTag.find('>:first-child').context.getAttribute('postid');
-
-        // Updates the tag's number of votes in the Django backend
-        $.ajax({
-            type:'POST',
-            url:'/tags/vote/' + post_id + '/' + tag_title,
-        }); 
-    }
-
-    function unvote(curTag) {
-        // Now onclick will trigger unvoting
-        curTag.unbind();
-        curTag.bind('click', function () { vote(curTag); });
-
-        // Indicate the tag has been voted on by its classes
-        curTag.removeClass('voted-tag');
-        curTag.addClass('unvoted-tag');
-
-        // Update the displayed number of votes
-        var newVotes = parseInt(curTag.find('>:first-child').text()) - 1;
-        curTag.find('>:first-child').text(newVotes);
-
-        // Grabs the tag's text
-        var tag_title = curTag.find('>:first-child').context.getAttribute('value');
-
-        // Grabs the tag's post's id
-        var post_id = curTag.find('>:first-child').context.getAttribute('postid');
-
-        // Updates the tag's number of votes in the Django backend
-        $.ajax({
-            type:'POST',
-            url:'/tags/unvote/' + post_id + '/' + tag_title,
-        }); 
-    }
-
-    // Adds csrf token so we can update a tag's votes in the Django backend
-    $.ajaxSetup({data: {
-        csrfmiddlewaretoken: '{{ csrf_token }}'
-    }});
 })();
 </script> 
