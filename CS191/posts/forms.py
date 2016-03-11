@@ -16,5 +16,5 @@ class SearchForm(forms.Form):
         ('SL', 'Stand With Leah'),
     )
 
-    query = forms.CharField(max_length=16, required=False, widget = forms.TextInput(attrs={'class': 'form-control'}))
+    query = forms.CharField(max_length=20, required=False, widget = forms.TextInput(attrs={'class': 'form-control'}))
     event = forms.ChoiceField(choices=EVENT_TYPE_CHOICES, required=True, label='Trending Event')

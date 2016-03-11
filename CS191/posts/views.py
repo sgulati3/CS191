@@ -30,6 +30,17 @@ def index(request):
     for post in all_posts:
         grouped_posts[post.event_date.date()].append(post)
 
+    sorted_dates = list(grouped_posts.keys())
+    sorted_dates.sort()
+
+    print sorted_dates
+
+    # sorted_grouped_posts = {}
+    # for date in dates:
+    #     sorted_grouped_posts[date] = grouped_posts[date]
+
+    # print sorted_grouped_posts
+
     paginator = Paginator(all_posts, 5) # Show 5 posts per page
     page_num = request.GET.get('page')
 
@@ -47,7 +58,8 @@ def index(request):
         'latest_post_list': all_posts,
         'tag_map': {post.id : post.get_tags_by_post() for post in all_posts},
         'tag_titles': None,
-        'grouped_posts': grouped_posts
+        'grouped_posts': grouped_posts,
+        'sorted_dates': sorted_dates
     }
 
     return render(request, 'posts/index.html', context)

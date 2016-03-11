@@ -64,19 +64,19 @@
                     </div>
                     {% if grouped_posts %}
 
-                    	{% for group in grouped_posts %}
+                    	{% for date in sorted_dates %}
                     	<div class="col-md-12 col-sm-12">
                     		<div class="panel panel-primary post-group">
                     			<div class="panel-heading" role="tab">
                     				<h4 class="panel-title">
-                    					<a role="button" data-toggle="collapse" href="#{{ group|date_to_integer:group }}" aria-expanded="true" aria-controls="{{ group|date_to_integer:group }}">
-                    						{{ group }}
+                    					<a role="button" data-toggle="collapse" href="#{{ date|date_to_integer:date }}" aria-expanded="true" aria-controls="{{ date|date_to_integer:date }}">
+                    						{{ date }}
                     					</a> 
                     				</h4> 
                     			</div> 
-                    			<div id="{{ group|date_to_integer:group }}" class="panel-collapse collapse in" role="tabpanel">
+                    			<div id="{{ date|date_to_integer:date }}" class="panel-collapse collapse in" role="tabpanel">
                     				<div class="panel-body">
-                    					{% for post in grouped_posts|get_value:group %}
+                    					{% for post in grouped_posts|get_value:date %}
 			                    		<div class="col-md-12 col-sm-12">
 											<div class="panel panel-default">
 												<!-- <div class="panel-heading clearfix">

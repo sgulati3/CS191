@@ -5,7 +5,7 @@ import datetime
 
 
 class Tag(models.Model):
-    title = models.CharField(max_length=16)
+    title = models.CharField(max_length=20)
     post = models.ForeignKey('posts.Post', on_delete=models.CASCADE)
     votes = models.IntegerField(blank=True, default=0)
     date = models.DateTimeField(default=datetime.datetime.now)
