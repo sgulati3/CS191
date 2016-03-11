@@ -7,8 +7,28 @@ p {
 	margin: 1em 0;
 }
 
+a {
+	color: inherit;
+}
+
+.test {
+	margin-top: 3em;
+}
+
+.post-detail {
+	padding: 20px;
+}
+
+.margin-top {
+	margin-top: 1em;
+}
+
 .margin-bottom {
 	margin-bottom: 1em;
+}
+
+.no-margin-top {
+	margin-top: 0;
 }
 
 .navbar {

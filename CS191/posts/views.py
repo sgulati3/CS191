@@ -64,7 +64,7 @@ def detail(request, post_id):
 # Creating a new post object
 def create(request):
     if request.method == 'POST':
-        form = PostForm(request.POST)
+        form = PostForm(request.POST, request.FILES)
         if form.is_valid():
             post = form.save(commit=False)
             post.date = timezone.now()
@@ -99,7 +99,11 @@ def create(request):
     return render(request, 'posts/create.html', context)
 
 def board(request):
-    return render(request, 'posts/board.html')
+    all_posts = Post.objects.all().order_by('event_date')
+    context = {
+        'all_posts': all_posts
+    }
+    return render(request, 'posts/board.html', context)
 
 @register.filter
 def get_value(dictionary, key):

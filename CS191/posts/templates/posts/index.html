@@ -83,16 +83,21 @@
 				                                    <span class="pull-right">Event Date: {{ post.event_date }} | Submission Date: {{ post.sub_date }} | Location: {{ post.location }}</span>
 												</div> -->
 												<div class="panel-body">
+													<h3>{{ post.title }}</h3>
 													<p>{{ post.text }}</p>
 
-													{% if post.photo %}
-									                    {% if post.photo.url %}
-									                        <img src="{{ post.photo.url }}" />
-									                    {% endif %}
-													{% endif %}
+													{% if post.get_post_type_display == 'Photo Post' %}
+								                        {% if post.photo.url %}
+								                        <img class="img-responsive" src="{{ post.photo.url }}" />
+								                        {% endif %}
+								                    {% else %}
+								                        {% if post.url %}
+								                        <iframe src="{{ post.url }}" frameborder="0" allowfullscreen></iframe>
+								                        {% endif %}
+								                    {% endif %}
 
 													{% if tag_map|get_value:post.id %}
-														Tags:
+														Tags: 
 														{% for tag in tag_map|get_value:post.id %}
 															<div class="unvoted-tag update-tag" value="{{ tag.title }}" post-id="{{ post.id }}">{{ tag.title }}
 							                                (<div class="update-tag-votes">{{ tag.votes }}</div>)
@@ -108,13 +113,12 @@
 												</div>
 												<div class="panel-footer clearfix">
 													<span class="pull-left small">
-														{{ post.event_date }}
+														<i class="fa fa-clock-o"></i> {{ post.event_date }} | <i class="fa fa-map-marker"></i> {{ post.location }}
 														<!-- {{ post.get_post_type_display }} -->
 														<!-- Event Date: {{ post.event_date }} | Submission Date: {{ post.sub_date }} -->
 													</span> 
 													<span class="pull-right small">
-														<i class="fa fa-map-marker"></i> {{ post.location }}
-					                                    <!-- <a href="{{ post.get_absolute_url }}">Post Detail</a> -->
+														<i class="fa fa-link"></i> <a href="{{ post.get_absolute_url }}">Permalink</a>
 													</span> 
 												</div> 
 											</div>
