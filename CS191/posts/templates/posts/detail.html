@@ -5,56 +5,56 @@
 
 <main>
 	<div class="container-fluid">
-		<p><a href="/posts">Back to posts</a></p>
-		<div class="panel panel-primary">
-
-            <!-- Header contains title and date -->
-			<div class="panel-heading clearfix">
-				<h3 class="panel-title pull-left">{{ post.title }}</h3>
-                <span class="pull-right">Event Date: {{ post.event_date }} | Submission Date: {{ post.sub_date }} | Location: {{ post.location }}</span>
-			</div>
-
+		<div class="panel panel-primary post-detail container">
+            <p><a href="/posts">Back to posts</a></p>
+            <div class="row">
+                <div class="col-md-6">
+                    <h3 class="no-margin-top">{{ post.title }}</h3>
+                    <p>{{ post.text }}</p>
+                    <div class="margin-bottom">
+                        {% if tags != None %}
+                        <em>Tags:</em>
+                        <div id="visible-tag-list">
+                            {% for tag in tags %}
+                                {% if tag != None %}
+                                    <div class="unvoted-tag update-tag" value="{{ tag.title }}" post-id="{{ post.id }}">{{ tag.title }}
+                                        (<div class="update-tag-votes">{{ tag.votes }}</div>)
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="test">
+                        <h6 class="text-muted margin-top">Event Date: {{ post.event_date }}</h6> 
+                        <h6 class="text-muted">Submission Date: {{ post.sub_date }}</h6>
+                        <h6 class="text-muted">Location: {{ post.location }}</h6>
+                        <!-- Total number of endorsements -->
+                        <!-- Total views -->
+                    </div> 
+                </div>
+                <div class="col-md-6">
+                    {% if post.get_post_type_display == 'Photo Post' %}
+                        {% if post.photo.url %}
+                        <img class="img-responsive" src="{{ post.photo.url }}" />
+                        {% endif %}
+                    {% else %}
+                        {% if post.url %}
+                        <iframe src="{{ post.url }}" frameborder="0" allowfullscreen></iframe>
+                        {% endif %}
+                    {% endif %}
+                </div>
+            </div>
 
             <!-- Body contains text, url, and tags -->
 			<div class="panel-body">
-				<p>{{ post.text }}</p>
-				{% if post.url %}
-					<a href="{{ post.url }}">External Link</a>
-				{% endif %}
-
-				{% if post.photo %}
-                    {% if post.photo.url %}
-                        <img src="{{ post.photo.url }}">
-                    {% endif %}
-				{% endif %}
-
                 <hr/>
                 <p id="new-tagger">
                     <p><span>Add Tags: </span><span id="warning"></span></p>
                     <input id="new-tag-field" maxlength="16" name="title" type="text"/>
                     <button id="new-tag-button">Add</button>
-                </p>
-
-                <hr/>
-                Tags:     
-                {% if tags != None %}
-                    <div id="visible-tag-list">
-                        {% for tag in tags %}
-                            {% if tag != None %}
-                                <div class="unvoted-tag update-tag" value="{{ tag.title }}">{{ tag.title }}
-                                    (<div class="update-tag-votes">{{ tag.votes }}</div>)
-                                </div>
-                            {% endif %}
-                        {% endfor %}
-                    </div>
-                {% endif %}
+                </p>                
 			</div>
-
-            <!-- Footer contains post type -->
-			<div class="panel-footer">
-				{{ post.get_post_type_display }}
-			</div> 
-
 		</div>
 	</div>
 </main>

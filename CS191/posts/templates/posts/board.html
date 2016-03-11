@@ -3,26 +3,27 @@
 
 <main>
 	<div class="masonry">
+		{% for post in all_posts %}
 		<div class="masonry-item panel panel-default">
 			<div class="panel-header">
-				<img src="https://scontent-lax3-1.xx.fbcdn.net/hphotos-xap1/l/t31.0-8/12465791_10208430936281415_2494297076173517734_o.jpg" />
+				{% if post.get_post_type_display == 'Photo Post' %}
+                    {% if post.photo.url %}
+                    <img class="img-responsive" src="{{ post.photo.url }}" />
+                    {% endif %}
+                {% else %}
+                	{% if post.url %}
+                	<iframe src="{{ post.url }}" frameborder="0" allowfullscreen></iframe>
+                	{% endif %}
+				{% endif %}
 			</div> 
 			<div class="panel-body">
-				<p>This is the caption to a photo.</p> 
-				<h6 class="text-muted pull-left">Stanford, CA</h6>
-				<h6 class="text-muted pull-right">Time</h6>
-			</div>
-		</div>
-		<div class="masonry-item panel panel-default">
-			<div class="panel-header">
-				<iframe src="https://www.youtube.com/embed/BgfcToAjfdc" frameborder="0" allowfullscreen></iframe>
+				<a href="{{ post.get_absolute_url }}"><h5>{{ post.title }}</h5></a>
+				<p>{{ post.text }}</p> 
+				<h6 class="text-muted pull-left"> {{ post.location }}</h6> 
+				<h6 class="text-muted pull-right"> {{ post.event_date }}</h6>
 			</div> 
-			<div class="panel-body">
-				<p>This is the caption to a video.</p>
-				<h6 class="text-muted pull-left">Stanford, CA</h6>
-				<h6 class="text-muted pull-right">Time</h6>
-			</div>
-		</div>
+		</div> 
+		{% endfor %}
 	</div>
 </main>
 
