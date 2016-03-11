@@ -1,0 +1,70 @@
+<!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script> -->
+
+<script>
+        $('.unvoted-tag').click(function() {
+            vote($(this));
+            return false;
+        });
+
+        $('.voted-tag').click(function() {
+            unvote($(this));
+            return false;
+        });
+
+        function vote(curTag) {
+            // Now onclick will trigger unvoting
+            curTag.unbind();
+            curTag.bind('click', function () { unvote(curTag); });
+
+            // Indicate the tag has been voted on by its classes
+            curTag.removeClass('unvoted-tag');
+            curTag.addClass('voted-tag');
+
+            // Update the displayed number of votes
+            var newVotes = parseInt(curTag.find('>:first-child').text()) + 1;
+            curTag.find('>:first-child').text(newVotes);
+
+            // Grabs the tag's text
+            var tag_title = curTag.find('>:first-child').context.getAttribute('value');
+
+            // Grabs the tag's post's id
+            var post_id = curTag.find('>:first-child').context.getAttribute('postid');
+
+            // Updates the tag's number of votes in the Django backend
+            $.ajax({
+                type:'POST',
+                url:'/tags/vote/' + post_id + '/' + tag_title,
+            }); 
+        }
+
+        function unvote(curTag) {
+            // Now onclick will trigger unvoting
+            curTag.unbind();
+            curTag.bind('click', function () { vote(curTag); });
+
+            // Indicate the tag has been voted on by its classes
+            curTag.removeClass('voted-tag');
+            curTag.addClass('unvoted-tag');
+
+            // Update the displayed number of votes
+            var newVotes = parseInt(curTag.find('>:first-child').text()) - 1;
+            curTag.find('>:first-child').text(newVotes);
+
+            // Grabs the tag's text
+            var tag_title = curTag.find('>:first-child').context.getAttribute('value');
+
+            // Grabs the tag's post's id
+            var post_id = curTag.find('>:first-child').context.getAttribute('postid');
+
+            // Updates the tag's number of votes in the Django backend
+            $.ajax({
+                type:'POST',
+                url:'/tags/unvote/' + post_id + '/' + tag_title,
+            }); 
+        }
+
+        // Adds csrf token so we can update a tag's votes in the Django backend
+        $.ajaxSetup({data: {
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        }});
+</script> 
