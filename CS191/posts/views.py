@@ -102,6 +102,7 @@ def search(request):
             'form': SearchForm,
             'grouped_posts': grouped_posts,
             'tag_map': {post.id : post.get_tags_by_post() for post in post_list},
+            'tag_titles': None
         }
 
         return render(request, 'posts/index.html', context)

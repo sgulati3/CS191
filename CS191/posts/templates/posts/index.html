@@ -76,6 +76,25 @@
                     			</div> 
                     			<div id="{{ date|date_to_integer:date }}" class="panel-collapse collapse in" role="tabpanel">
                     				<div class="panel-body">
+                    					{% if date|date_to_integer:date == 20154028 %}
+										<div class="col-md-12 col-sm-12">
+											<blockquote class="twitter-tweet" data-lang="en"><p lang="en" dir="ltr">Freddie Gray&#39;s arrest record(That we just typed up on Microsoft Word even though none of these are probably true): <a href="http://t.co/bOKlIouKgY">pic.twitter.com/bOKlIouKgY</a></p>&mdash; Gurjinder Da Flippa (@gsandhu92) <a href="https://twitter.com/gsandhu92/status/593202454776381441">April 28, 2015</a></blockquote>
+										</div>
+										<div class="col-md-12 col-sm-12">
+											<blockquote class="twitter-tweet" data-lang="en"><p lang="en" dir="ltr">Baltimore Tuesday ... <a href="https://twitter.com/hashtag/BaltimoreUprising?src=hash">#BaltimoreUprising</a> <a href="https://twitter.com/hashtag/FreddieGray?src=hash">#FreddieGray</a> <a href="http://t.co/3xXeU6Pf5C">pic.twitter.com/3xXeU6Pf5C</a></p>&mdash; jim spellman (@jimspellmanTV) <a href="https://twitter.com/jimspellmanTV/status/593201913916698624">April 28, 2015</a></blockquote>
+											<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+                    					</div>
+                    					{% endif %}
+                    					{% if date|date_to_integer:date == 20154029 %}
+										<div class="col-md-12 col-sm-12">
+											<blockquote class="twitter-tweet" data-lang="en"><p lang="en" dir="ltr">Arrests at <a href="https://twitter.com/hashtag/FreddieGray?src=hash">#FreddieGray</a> protest in New York. Worth noting &quot;Philly is Baltimore&quot; rally sched 4:30 tmrw in Center City <a href="http://t.co/rK88TvLCa6">pic.twitter.com/rK88TvLCa6</a></p>&mdash; Randy Gyllenhaal (@RandyGyllenhaal) <a href="https://twitter.com/RandyGyllenhaal/status/593565298906820610">April 29, 2015</a></blockquote>
+											
+										</div>
+										<div class="col-md-12 col-sm-12">
+											<blockquote class="twitter-tweet" data-lang="en"><p lang="en" dir="ltr">Peaceful protest in solidarity with <a href="https://twitter.com/hashtag/FreddieGray?src=hash">#FreddieGray</a> in downtown DC <a href="https://twitter.com/hashtag/DCFerguson?src=hash">#DCFerguson</a> <a href="http://t.co/fsoi3P3Kdl">pic.twitter.com/fsoi3P3Kdl</a></p>&mdash; Alex Zielinski (@alex_zee) <a href="https://twitter.com/alex_zee/status/593565288991498240">April 29, 2015</a></blockquote>
+											
+                    					</div>
+                    					{% endif %}
                     					{% for post in grouped_posts|get_value:date %}
 			                    		<div class="col-md-12 col-sm-12">
 											<div class="panel panel-default">
@@ -126,6 +145,16 @@
 										</div>
 
 			                    		{% endfor %}
+			                    		{% if date|date_to_integer:date == 20154028 %}
+                    					<div class="col-md-12 col-sm-12">
+                    						<blockquote class="twitter-tweet" data-lang="en"><p lang="en" dir="ltr">Got a convoy heading towards Druid hill park <a href="https://twitter.com/hashtag/Baltimore?src=hash">#Baltimore</a> <a href="https://twitter.com/hashtag/FreddieGray?src=hash">#FreddieGray</a> <a href="http://t.co/FIMFahJl0T">pic.twitter.com/FIMFahJl0T</a></p>&mdash; QuinnLester (@QuinnLester) <a href="https://twitter.com/QuinnLester/status/593202758469169152">April 28, 2015</a></blockquote>
+										</div>
+                    					{% endif %}
+                    					{% if date|date_to_integer:date == 20154029 %}
+                    					<div class="col-md-12 col-sm-12">
+                    						<blockquote class="twitter-tweet" data-lang="en"><p lang="en" dir="ltr">Solidarity with <a href="https://twitter.com/hashtag/Baltimore?src=hash">#Baltimore</a> from ABQ, New Mexico. <a href="https://twitter.com/hashtag/FreddieGray?src=hash">#FreddieGray</a> <a href="http://t.co/mpWvyJqFxc">pic.twitter.com/mpWvyJqFxc</a></p>&mdash; mayita (@papaya__maya) <a href="https://twitter.com/papaya__maya/status/593565287976316928">April 29, 2015</a></blockquote>
+										</div>
+                    					{% endif %}
                     				</div> 
                     			</div> 
                     		</div> 
