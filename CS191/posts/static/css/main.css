@@ -6,14 +6,11 @@ p {
 .navbar {
 	box-shadow: none;
 	border: none;
+	margin: 0;
 }
 
 .jumbotron-main {
 	background: #D9EDF7;
-}
-
-.navbar {
-	margin: 0;
 }
 
 #topics.affix {
@@ -72,4 +69,19 @@ p {
     .affix {
         position: static;
     }
+}
+
+/* Masonry for board */
+.masonry {
+	margin: 0 auto;
+	width: 100%;
+}
+
+.masonry-item {
+	width: 300px;
+	margin-bottom: 20px;
+}
+
+.masonry-item img {
+	width: 100%;
 }
