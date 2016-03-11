@@ -9,13 +9,27 @@ from .forms import PostForm
 from .forms import SearchForm
 from .models import Post
 from tags.models import Tag
+from collections import defaultdict
+
+from itertools import groupby
 
 import json
 
 
 # Default page that displays all posts
 def index(request):
-    all_posts = Post.objects.all().order_by('-event_date')
+    all_posts = Post.objects.all().order_by('event_date')
+    grouped_posts = defaultdict(list)
+
+    # for key, values in groupby(all_posts, key=lambda post: post.event_date.date()):
+    #     print('-')
+    #     print(key)
+    #     print(list(values))
+    #     grouped_posts[key] = list(values)
+
+    for post in all_posts:
+        grouped_posts[post.event_date.date()].append(post)
+
     paginator = Paginator(all_posts, 5) # Show 5 posts per page
     page_num = request.GET.get('page')
 
@@ -31,7 +45,9 @@ def index(request):
     context = {
         'form': SearchForm,
         'latest_post_list': all_posts,
-        'tag_map': {post.id : post.get_tags_by_post() for post in all_posts}
+        'tag_map': {post.id : post.get_tags_by_post() for post in all_posts},
+        'tag_titles': None,
+        'grouped_posts': grouped_posts
     }
 
     return render(request, 'posts/index.html', context)
@@ -70,7 +86,7 @@ def search(request):
 # Creating a new post object
 def create(request):
     if request.method == 'POST':
-        form = PostForm(request.POST)
+        form = PostForm(request.POST, request.FILES)
         if form.is_valid():
             post = form.save(commit=False)
             post.date = timezone.now()
@@ -105,8 +121,16 @@ def create(request):
     return render(request, 'posts/create.html', context)
 
 def board(request):
-    return render(request, 'posts/board.html')
+    all_posts = Post.objects.all().order_by('event_date')
+    context = {
+        'all_posts': all_posts
+    }
+    return render(request, 'posts/board.html', context)
 
 @register.filter
-def get_tags(dictionary, key):
+def get_value(dictionary, key):
     return dictionary.get(key)
+
+@register.filter
+def date_to_integer(dt_time, unused_parameter):
+    return 10000*dt_time.year + 1000*dt_time.month + dt_time.day
