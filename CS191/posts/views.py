@@ -25,7 +25,7 @@ def index(request):
         paginated_posts = paginator.page(paginator.num_pages)
 
     context = {
-        'latest_post_list': paginated_posts,
+        'latest_post_list': all_posts,
         'tag_map': {post.id : post.get_tags_by_post() for post in paginated_posts}
     }
 
