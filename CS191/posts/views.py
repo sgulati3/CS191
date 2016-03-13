@@ -21,25 +21,11 @@ def index(request):
     all_posts = Post.objects.all().order_by('event_date')
     grouped_posts = defaultdict(list)
 
-    # for key, values in groupby(all_posts, key=lambda post: post.event_date.date()):
-    #     print('-')
-    #     print(key)
-    #     print(list(values))
-    #     grouped_posts[key] = list(values)
-
     for post in all_posts:
         grouped_posts[post.event_date.date()].append(post)
 
     sorted_dates = list(grouped_posts.keys())
     sorted_dates.sort()
-
-    print sorted_dates
-
-    # sorted_grouped_posts = {}
-    # for date in dates:
-    #     sorted_grouped_posts[date] = grouped_posts[date]
-
-    # print sorted_grouped_posts
 
     paginator = Paginator(all_posts, 5) # Show 5 posts per page
     page_num = request.GET.get('page')
@@ -53,13 +39,25 @@ def index(request):
         # If page is out of range (e.g. 9999), deliver last page of results.
         paginated_posts = paginator.page(paginator.num_pages)
 
+    tag_freq = {}
+    for time_bucket in grouped_posts.keys():
+        tagFreqInBucket = {}
+        tagFreqInBucket = defaultdict(lambda:0, tagFreqInBucket)
+
+        for post in grouped_posts[time_bucket]:
+            for tag in Tag.objects.filter(post=post):
+                tagFreqInBucket[tag.title]+=1
+
+        tag_freq[time_bucket] = tagFreqInBucket
+
     context = {
         'form': SearchForm,
         'latest_post_list': all_posts,
         'tag_map': {post.id : post.get_tags_by_post() for post in all_posts},
         'tag_titles': None,
         'grouped_posts': grouped_posts,
-        'sorted_dates': sorted_dates
+        'sorted_dates': sorted_dates,
+        'tag_freq': tag_freq
     }
 
     return render(request, 'posts/index.html', context)

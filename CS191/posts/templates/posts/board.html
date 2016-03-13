@@ -1,8 +1,14 @@
 {% include "includes/head.html" %}
 {% include "includes/header.html" %}
 
+
+
 <main>
+	<div class="container">
+		<p><a href="/posts">Back to posts</a></p>
+	</div>
 	<div class="masonry">
+		<p><a href="/posts">Back to posts</a></p>
 		{% for post in all_posts %}
 		<div class="masonry-item panel panel-default">
 			<div class="panel-header">
@@ -19,8 +25,8 @@
 			<div class="panel-body">
 				<a href="{{ post.get_absolute_url }}"><h5>{{ post.title }}</h5></a>
 				<p>{{ post.text }}</p> 
-				<h6 class="text-muted pull-left"> {{ post.location }}</h6> 
-				<h6 class="text-muted pull-right"> {{ post.event_date }}</h6>
+				<h6 class="text-muted pull-left"> <i class="fa fa-clock-o"></i> {{ post.event_date }}</h6>
+				<h6 class="text-muted pull-right"> <i class="fa fa-map-marker"></i> {{ post.location }}</h6> 
 			</div> 
 		</div> 
 		{% endfor %}

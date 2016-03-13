@@ -13,7 +13,7 @@
 						<h4 class="list-group-item-heading">Trending Events</h4>
 						<!-- <p class="list-group-item-text">48,283 conversations</p> -->
 					</a>
-					<a href="#" class="list-group-item">
+					<a href="#" class="list-group-item list-group-item-success">
 						<h4 class="list-group-item-heading">Baltimore Uprising</h4>
 						<p class="list-group-item-text">48,283 conversations</p>
 					</a>
@@ -30,12 +30,16 @@
 
 			<div class="col-md-9 col-sm-9">
 				<div class="row">
-					<div class="col-md-12 col-sm-12">
+					<div class="col-md-6 col-sm-6">
+						<h3 class="no-margin-top">Baltimore Uprising</h3>
+						<h5>April 18, 2015 – May 3, 2015</h5>
+					</div>
+					<div class="col-md-6 col-sm-6">
                         <!-- <div class="panel panel-primary"> -->
 							<!-- <div class="panel-body"> -->
-                                <a class="btn btn-primary margin-bottom" href="{% url 'posts:create' %}">Submit new post</a>
-                                <a class="btn btn-primary margin-bottom" href="board">Board</a>
-                                <form class="form-inline" action="{% url 'posts:search' %}" method="post">
+                                <a class="btn btn-primary margin-bottom" href="{% url 'posts:create' %}">Create New Post</a>
+                                <a class="btn btn-primary margin-bottom" href="board">Photo & Video Board</a>
+                                <form action="{% url 'posts:search' %}" method="post" >
                                 	<div class="form-group">
 								        {% csrf_token %}
 								        {{ form }}
@@ -62,19 +66,35 @@
                             <!-- </div> -->
                         <!-- </div> -->
                     </div>
+                </div> 
+                <div class="row">
                     {% if grouped_posts %}
 
                     	{% for date in sorted_dates %}
                     	<div class="col-md-12 col-sm-12">
                     		<div class="panel panel-primary post-group">
-                    			<div class="panel-heading" role="tab">
+                    			<div class="panel-heading" role="tab" id="h{{ date|date_to_integer:date }}">
                     				<h4 class="panel-title">
-                    					<a role="button" data-toggle="collapse" href="#{{ date|date_to_integer:date }}" aria-expanded="true" aria-controls="{{ date|date_to_integer:date }}">
+                    					<a role="button" data-toggle="collapse" href="#{{ date|date_to_integer:date }}" aria-expanded="false" aria-controls="{{ date|date_to_integer:date }}">
                     						{{ date }}
-                    					</a> 
-                    				</h4> 
+                    					</a>
+                    					<a role="button" data-toggle="collapse" href="#freq{{ date|date_to_integer:date }}" aria-expanded="true" aria-controls="freq{{ date|date_to_integer:date }}" class="pull-right thin-text">
+                    						Tag Frequencies
+                    					</a>
+                    				</h4>
                     			</div> 
-                    			<div id="{{ date|date_to_integer:date }}" class="panel-collapse collapse in" role="tabpanel">
+                    			<div id="{{ date|date_to_integer:date }}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="h{{ date|date_to_integer:date }}">
+                    				<div class="panel-body" id="freq{{ date|date_to_integer:date }}" class="panel-collapse collapse in">
+                    					{% for tag in tag_freq|get_value:date %}
+	                    				<div class="progress">
+	                    					<div class="progress-bar" role="progressbar" aria-valuenow="{{ tag_freq|get_value:date|get_value:tag }}" aria-valuemin="0" aria-valuemax="5" style="width: {% widthratio tag_freq|get_value:date|get_value:tag 1 20 %}%">
+	                    						{{ tag }} {{ tag_freq|get_value:date|get_value:tag }}
+	                    					</div>
+	                    				</div>
+	                    				<!-- <div> {{ tag }} </div>
+	                    				<div> {{ tag_freq|get_value:date|get_value:tag }}</div> -->
+	                    				{% endfor %}
+	                    			</div>
                     				<div class="panel-body">
                     					{% if date|date_to_integer:date == 20154028 %}
 										<div class="col-md-12 col-sm-12">

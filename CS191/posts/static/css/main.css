@@ -11,6 +11,10 @@ a {
 	color: inherit;
 }
 
+.thin-text {
+	font-weight: 200;
+}
+
 .big-margin-top {
 	margin-top: 3em;
 }
